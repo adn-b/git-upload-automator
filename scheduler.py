@@ -122,14 +122,6 @@ def uploadIndividual(repo, file):
         return
     
     branch = input("Which branch would you like to upload to? Please note that any typos will result in an upload to an incorrect branch.\n")
-
-    if not commitCheck(repo):
-        print("The repository has no commits yet. Initializing repository with first commit.")
-        repo.git.add(file)
-        repo.index.commit("Initial commit")
-        if repo.remotes:
-            repo.git.push("origin", branch)
-
     if branch not in repo.branches:
         repo.git.checkout('HEAD', b=branch)
     else:
@@ -161,14 +153,6 @@ def manualUpload(repo, changes):
             print(f"{file} is tracked.")
 
     branch = input("Which branch would you like to upload to? Please note that any typos will result in an upload to an incorrect branch.\n")
-
-    if not commitCheck(repo):
-        print("The repository has no commits yet. Initializing repository with first commit.")
-        repo.git.add(changes)
-        repo.index.commit("Initial commit")
-        if repo.remotes:
-            repo.git.push("origin", branch)
-
     if branch not in repo.branches:
         repo.git.checkout('HEAD', b=branch)
     else:
@@ -185,7 +169,6 @@ def manualUpload(repo, changes):
         print(f"Files {changes} have been pushed to branch {branch}.")
     except git.exc.GitCommandError as error:
         print(f"Failed to upload files: {error}")
-
 
 
 if __name__ == "__main__":
